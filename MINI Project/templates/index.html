@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Official Health Hospital Chatbot</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="background">
+        <header>
+            <h1>Welcome to Official Health Hospital Chatbot</h1>
+            <p>Your health, our priority. How can we help you today?</p>
+        </header>
+        <div class="chat-container">
+            <div id="chat-box">
+                <div id="chat-output"></div>
+                <form id="chat-form" method="post" action="/query">
+                    <input type="text" id="user-input" name="user_input" placeholder="Ask about appointments, doctors, or health tips..." autocomplete="off" required>
+                    <button type="submit">Send</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.getElementById("chat-form").onsubmit = async (e) => {
+            e.preventDefault();
+            const userInput = document.getElementById("user-input").value;
+            const response = await fetch("/query", {
+                method: "POST",
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: new URLSearchParams({ user_input: userInput })
+            });
+            const data = await response.json();
+            document.getElementById("chat-output").innerHTML += `<p><b>User:</b> ${userInput}</p><p><b>Bot:</b> ${data.response}</p>`;
+            document.getElementById("user-input").value = "";
+        };
+    </script>
+</body>
+</html>
