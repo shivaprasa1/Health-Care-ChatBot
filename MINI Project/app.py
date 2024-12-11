@@ -3,6 +3,9 @@ import random
 
 app = Flask(__name__)
 
+
+
+
 # Sample data for doctors and health tips
 doctors_info = {
     "cardiology": {"name": "Dr. Smith", "experience": "10 years", "availability": "Mon, Wed, Fri"},
@@ -16,37 +19,97 @@ health_tips = [
     "Get regular check-ups with your healthcare provider.",
 ]
 
+thank_you = [
+    "Welcome, I will always assist you and Thank You"
+]
+
+
+hi = [
+    "Hello, I am Health care chatBot,How can I assist you today?"
+
+]
+
+
+
 # Function to generate an appointment token
 def generate_token():
-    return f"APT-{random.randint(1000, 9999)}"
+    return f"APT-{random.randint(1, 999)}"
 
 # Home route
 @app.route('/')
 def home():
     return render_template('index.html')
 
+
+
+@app.route('/book-appointment', methods=['POST'])
+def book_appointment():
+    doctor = request.form.get("doctor")
+    date = request.form.get("date")
+    time = request.form.get("time")
+
+    # Save the data or process it
+    return jsonify({"message": f"Appointment successfully booked with {doctor.capitalize()} on {date} at {time}."})
+
+
+
+
+
+
+
+
 # Route for handling user queries
 @app.route('/query', methods=['POST'])
 def query():
-    user_input = request.form.get("user_input").lower()
+    user_input = request.form.get("user_input", "").lower().strip()
+
+
 
     # Response logic
+
     if "appointment" in user_input:
         token = generate_token()
         response = f"Your appointment has been scheduled. Your token is {token}. Please mention it when you arrive."
+
     elif "doctor" in user_input or "specialty" in user_input:
-        specialty = user_input.split()[-1]
-        doctor = doctors_info.get(specialty)
-        if doctor:
-            response = f"Our {specialty.capitalize()} specialist is {doctor['name']} with {doctor['experience']} experience. Available on {doctor['availability']}."
+
+        # Extract specialty from user input
+        for specialty in doctors_info:
+            if specialty in user_input:
+                doctor = doctors_info[specialty]
+                response = f"Our {specialty.capitalize()} specialist is {doctor['name']} with {doctor['experience']} experience. Available on {doctor['availability']}."
+                break
         else:
-            response = "We have specialists in cardiology, neurology, and pediatrics. Please specify one of these."
+            response = "We have specialists in doctor cardiology, doctor neurology, and doctor pediatrics. Please specify one of these."
+
+
+
     elif "health tip" in user_input:
-        response = health_tips[random.randint(0, len(health_tips) - 1)]
+        response = random.choice(health_tips)
+
+    # elif "token" in user_input:
+    #     response = random.choice(token)
+
+
+    elif "hi" in user_input:
+        response = random.choice(hi)
+    
+    elif "thank you" in user_input:
+        response = random.choice(thank_you)
     else:
-        response = "Welcome to Official Health Hospital! How can I assist you today?"
+        response = "Welcome to Official Health Hospital! \t \"Ask about appointments, doctors, or health tips...\""
 
     return jsonify({"response": response})
 
+
+
 if __name__ == '__main__':
     app.run(debug=True)
+
+
+
+
+
+
+
+

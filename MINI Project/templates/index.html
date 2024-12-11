@@ -3,38 +3,211 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Official Health Hospital Chatbot</title>
+    <title>Official Health CareChatbot</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
+
+
+
+
+
+
+    
+
+    
+
+
+
     <div class="background">
+
         <header>
-            <h1>Welcome to Official Health Hospital Chatbot</h1>
+            <h1>Welcome to Official Health CareChatbot</h1>
             <p>Your health, our priority. How can we help you today?</p>
         </header>
-        <div class="chat-container">
-            <div id="chat-box">
-                <div id="chat-output"></div>
-                <form id="chat-form" method="post" action="/query">
-                    <input type="text" id="user-input" name="user_input" placeholder="Ask about appointments, doctors, or health tips..." autocomplete="off" required>
-                    <button type="submit">Send</button>
-                </form>
-            </div>
+
+       <div class="appointment-container">
+        <h2>Book Your Appointment</h2>
+        <form id="appointment-form">
+            <label for="doctor">Select Doctor:</label>
+            <select id="doctor" name="doctor" required>
+                <option value="" disabled selected>Select a specialty</option>
+                <option value="cardiology">Cardiology</option>
+                <option value="neurology">Neurology</option>
+                <option value="pediatrics">Pediatrics</option>
+            </select>
+    
+            <label for="date">Choose Date:</label>
+            <input type="date" id="date" name="date" required>
+    
+            <label for="time">Choose Time:</label>
+            <input type="time" id="time" name="time" required>
+    
+            <button type="submit">Book Appointment</button>
+        </form>
+        <div id="appointment-message"></div>
+    </div>
+    <div class="chat-container">
+        <div id="chat-box">
+            <div id="chat-output"></div>
+
+            <form id="chat-form" method="post" action="/query">
+                <input type="text" id="user-input" name="user_input" placeholder="Ask about appointments, doctors, or health tips..." autocomplete="off" required>
+                <button type="submit">Send</button>
+            </form>
         </div>
     </div>
+      
+
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+    <div class="feedback-container">
+        <h3>Feedback</h3>
+        <form id="feedback-form">
+            <textarea id="feedback-input" placeholder="Leave your feedback..." required></textarea>
+            <button type="submit">Submit Feedback</button>
+        </form>
+        <div id="feedback-message"></div>
+    </div>
+    
+
+
+
+    
+    
+
+
+
+
+
+
+
+
+
     <script>
         document.getElementById("chat-form").onsubmit = async (e) => {
             e.preventDefault();
+
             const userInput = document.getElementById("user-input").value;
+
+            // Display the user's input
+            const chatOutput = document.getElementById("chat-output");
+            chatOutput.innerHTML += `<p><b>User:</b> ${userInput}</p>`;
+
+            // Send the request to the server
             const response = await fetch("/query", {
                 method: "POST",
                 headers: { "Content-Type": "application/x-www-form-urlencoded" },
                 body: new URLSearchParams({ user_input: userInput })
             });
+
             const data = await response.json();
-            document.getElementById("chat-output").innerHTML += `<p><b>User:</b> ${userInput}</p><p><b>Bot:</b> ${data.response}</p>`;
+
+            // Display the bot's response
+            chatOutput.innerHTML += `<p><b>Bot:</b> ${data.response}</p>`;
             document.getElementById("user-input").value = "";
+
+            // Scroll to the bottom of the chat
+            chatOutput.scrollTop = chatOutput.scrollHeight;
         };
-    </script>
+
+
+
+
+
+
+
+
+
+
+
+
+        
+        document.getElementById("feedback-form").onsubmit = async (e) => {
+    e.preventDefault();
+
+    const feedbackInput = document.getElementById("feedback-input").value;
+
+    // Send feedback to the server
+    const response = await fetch("/feedback", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams({ feedback: feedbackInput })
+    });
+
+    const data = await response.json();
+
+    // Show confirmation message
+    const feedbackMessage = document.getElementById("feedback-message");
+    feedbackMessage.textContent = data.message;
+    document.getElementById("feedback-input").value = "";
+};
+
+document.getElementById("appointment-form").onsubmit = async (e) => {
+        e.preventDefault();
+
+        const doctor = document.getElementById("doctor").value;
+        const date = document.getElementById("date").value;
+        const time = document.getElementById("time").value;
+
+        const response = await fetch("/book-appointment", {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: new URLSearchParams({ doctor, date, time })
+        });
+
+        const data = await response.json();
+
+        const appointmentMessage = document.getElementById("appointment-message");
+        appointmentMessage.textContent = data.message;
+        document.getElementById("appointment-form").reset();
+    };
+
+
+
+
+
+
+// Show the popup when the page loads
+window.onload = function() {
+    const popupHeader = document.getElementById("popup-header");
+    popupHeader.style.display = "block"; // Display the popup
+
+    // Close the popup when the close button is clicked
+    const closeButton = document.getElementById("close-popup");
+    closeButton.onclick = function() {
+        popupHeader.style.display = "none"; // Hide the popup
+    };
+};
+
+
+
+
+
+
+
+
+
+
+
+        
+        
+        
+        
+        </script>
+    <footer>
+        <p>&copy HealthCare ChatBot 2024</p>
+    </footer>
+
 </body>
 </html>

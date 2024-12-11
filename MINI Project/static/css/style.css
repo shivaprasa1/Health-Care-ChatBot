@@ -3,37 +3,94 @@ body, html {
     padding: 0;
     height: 100%;
     font-family: Arial, sans-serif;
-    background-image: url("static\css\images\background.jpeg");
+    background-image: url("../css/images/background.jpeg");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    background-attachment: fixed;
+    /* background-attachment: fixed; */
+    image-rendering: -webkit-optimize-contrast; /* Chrome */
+    image-rendering: crisp-edges;               /* Firefox */
+    image-rendering: pixelated;
+    background-color: rgb(17, 17, 17);
 }
 
 .background {
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100%;
     color: #ffffff;
+    
 }
 
 header {
-    text-align: center;
-    padding: 20px;
-    background-color: rgba(0, 0, 128, 0.7);
-    color: white;
-    border-radius: 8px;
+    position: absolute; /* Ensures the header stays at the top */
+        top: 0; /* Aligns the header to the top of the page */
+        left: 0; /* Ensures it starts from the left edge */
+        width: 100%; /* Makes the header span the full width of the page */
+        text-align: center; /* Centers the text within the header */
+        padding: 20px;
+        background-color: rgba(200, 200, 200, 0.20); /* Blue background */
+        color: white; /* White text color */
+        border-radius: 0 0 8px 8px; /* Rounded corners only at the bottom */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow for depth */
+        z-index: 1000; /* Ensures the header stays above other elements */
+    }
+h1{
+   
+    background-color: #007bff;
+    border-radius: 0px;
+   /* background-size: text; */
+   margin: auto;
+   box-sizing: border-box;
+   
 }
 
+
+
+
+
+
+
+
+
+
+p{
+
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+    /* align-items:top; */
+
+
+
+    
 .chat-container {
-    background-color: rgba(255, 255, 255, 0.85);
+    background-color: rgba(255, 255, 255, 0.4);
     border-radius: 8px;
     width: 400px;
     padding: 20px;
-    margin: 20px;
     color: #333;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    position: relative;
+    margin: 20px auto; /* Center horizontally */
+    top: 100px; /* Adjust spacing from the header */
+    text-align: center;
+    transform: translate(-50%, -50%); 
+    margin-top: 200px;
+    position: relative;
 }
 
 #chat-box {
@@ -74,4 +131,217 @@ button {
 
 button:hover {
     background-color: #0056b3;
+} 
+
+
+
+
+
+.feedback-container {
+    margin-top: 20px;
+    background-color: rgba(34, 35, 45, 0.592);
+    padding: 15px;
+    border-radius: 0px;
+    color:#fff;
+    margin-top: 60px;
 }
+
+.feedback-container textarea {
+    width: 100%;
+    height: 100px;
+    padding: 10px;
+    border: 1px solid #cccccc74;
+    border-radius: 8px;
+    font-size: 16px;
+    color:rgb(255, 255, 255);
+    background-color: rgba(33, 37, 100, 0.059);
+}
+
+.feedback-container button {
+    margin-top: 10px;
+    background-color: #28a745;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    align-content: center;
+    
+}
+
+.feedback-container button:hover {
+    background-color: #218838;
+    align-content: center;
+}
+
+
+
+
+
+.appointment-container {
+    background-color: rgba(255, 255, 255, 0.134);
+    padding: 15px; /* Reduced padding */
+    border-radius: 8px; /* Slightly smaller corner radius */
+    width: 320px; /* Reduced width */
+    margin: 15px auto; /* Center horizontally with less margin */
+    text-align: center;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.448); /* Slightly smaller shadow */
+    position: relative;
+    top: 100px; /* Adjust spacing from the chat box */
+    margin-top: 50px;
+}
+
+.appointment-container h2 {
+font-size: 20px; /* Adjust font size */
+    color: #fff; /* Text color for contrast */
+    margin-bottom: 15px;
+    font-weight: bold;
+    background-color: #0000009b; /* Background color for the heading */
+    padding: 10px; /* Add padding around the text */
+    border-radius: 6px; /* Optional: round the corners */
+    text-align: center; 
+}
+
+.appointment-container select,
+.appointment-container input {
+    width: 90%; /* Keep full width for readability */
+    padding: 8px; /* Reduced padding */
+    margin-bottom: 10px; /* Reduced spacing between inputs */
+    border: 1px solid #151515f7;
+    border-radius: 4px; /* Slightly smaller border radius */
+    font-size: 14px; /* Reduced font size */
+    
+}
+
+.appointment-container button {
+    padding: 10px 15px; /* Reduced button size */
+    font-size: 14px; /* Reduced font size */
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px; /* Slightly smaller corner radius */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.appointment-container button:hover {
+    background-color: #0056b3;
+}
+
+
+
+
+footer {
+    text-align: center;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.23);
+    color: #ddd;
+    border-radius:0;
+    /* align-items:top; */
+
+}
+
+
+
+ /* Start off-screen to the left */
+     /* Smooth transition */
+ 
+
+/* When the cursor hovers over the form container, slide it in */
+ .appointment-container:hover {
+    transform: translateX(0); /* Slide in to its original position */
+}
+
+
+.appointment-container {
+    position: relative;
+    transform: translateX(-100%); /* Start off-screen to the left */
+    transition: transform 0.5s ease-in-out; /* Smooth transition */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Popup Header Styles */
+.popup-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: rgb(0, 4, 255); /* Dark background */
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+    display: none; /* Hidden by default */
+    z-index: 1000; /* Ensure it stays on top */
+}
+
+.popup-content {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.popup-content h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.popup-content ul {
+    list-style: none;
+    padding: 0;
+}
+
+.popup-content li {
+    margin: 5px 0;
+    font-size: 18px;
+}
+
+.close-popup {
+    margin-top: 15px;
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.close-popup:hover {
+    background-color: #218838;
+}
+
+
